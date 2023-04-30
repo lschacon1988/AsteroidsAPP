@@ -19,9 +19,6 @@
             android:name=".ListAsteroidsActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateUserActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
