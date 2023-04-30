@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Asteroids info</string>
+
+    <string name="create">CREATE_DB</string>
+    <string name="textname">Nombre</string>
+    <string name="textdistance">Distancia de la tierra</string>
+    <string name="textspeed">Velocidad de vuelo</string>
+    <string name="titleLogin">Login</string>
+    <string name="nameLogin">Nombre</string>
+    <string name="password">Password</string>
+    <string name="btnLogin">Enviar</string>
+
+
+
+</resources>
