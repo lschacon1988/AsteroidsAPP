@@ -17,6 +17,7 @@
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#b2b2b2"
             android:gravity="center"
             android:text="@string/txttitle"
             android:textSize="48sp" />

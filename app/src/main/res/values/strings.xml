@@ -1,17 +1,29 @@
 <resources>
     <string name="app_name">Asteroids info</string>
 
-    <string name="login">LOGIN</string>
-    <string name="btnRegister">Register</string>
 
-    <string name="textname">Nombre</string>
-    <string name="textdistance">Distancia de la tierra</string>
-    <string name="textspeed">Velocidad de vuelo</string>
-    <string name="titleLogin">Login</string>
-    <string name="nameLogin">Nombre</string>
+    <string name="btnRegister">Register</string>
+    <string name="btnLogin">Entrar</string>
+    <string name="btnEnviar">Enviar</string>
+
+    <string name="txtname">Nombre</string>
+    <string name="txtusername">Username</string>
+    <string name="txtlastName">Apellido</string>
+    <string name="txtemail">Email</string>
     <string name="password">Password</string>
-    <string name="btnLogin">Enviar</string>
+
+
+    <string name="txtdistance">Distancia de la tierra</string>
+    <string name="txtspeed">Velocidad de vuelo</string>
+
+
+
+
+    <string name="login">LOGIN</string>
+    <string name="titleLogin">Login</string>
     <string name="txttitle">Bienvenido</string>
+    <string name="txttitleregister">Registra Tus Datos</string>
+
 
 
 
