@@ -2,6 +2,8 @@ package com.luischacon.asteroidsinfo.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
@@ -47,14 +49,25 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     //METODO PARA CERRAR
     public void cerra(){this.close();}
 
-    public void insertUser(String first_name,String last_name,String email , String username, String password ){
+    public void insertUser(String username, String password,String first_name,String last_name,String email){
         ContentValues value = new ContentValues();
+        value.put("username", username);
+        value.put("password",password);
         value.put("first_name", first_name);
         value.put("last_name", last_name);
-        value.put("username", username);
         value.put("email", email);
-        value.put("password",password);
+
         this.getWritableDatabase().insert("users",null,value);
+
+    }
+
+    public Cursor consultarUser(String email,String password) throws SQLException {
+        Cursor mCursor = null;
+        String[] columns = new String[]{"_ID","first_name","last_name","username","email","password"};
+
+        mCursor = this.getReadableDatabase().query("users",columns,"email like '"+email+"' and password like '"+password+"' ",null,null,null,null);
+
+        return  mCursor;
 
     }
 }

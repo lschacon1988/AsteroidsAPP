@@ -35,11 +35,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 helper.open();
-                helper.insertUser(String.valueOf(txt_username.getText()),String.valueOf(txt_first_name.getText()),String.valueOf(txt_last_name.getText()),String.valueOf(txt_email.getText()),String.valueOf(txt_register_pass.getText()));
+
+                helper.insertUser(txt_username.getText().toString(),txt_register_pass.getText().toString(),txt_first_name.getText().toString(),txt_last_name.getText().toString(),txt_email.getText().toString());
+
                 helper.cerra();
 
                 Toast.makeText(getApplicationContext(), "Rgistro exitoso",Toast.LENGTH_LONG).show();
-                
+
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
             }
