@@ -1,21 +1,19 @@
 package com.luischacon.asteroidsinfo.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
-public class DataBaseHelper  extends SQLiteOpenHelper {
+public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "asteroids.db";
 
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " +
             "users (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "username TEXT not null, password TEXT not null," +
+            "username TEXT not null unique, password TEXT not null," +
             "first_name TEXT not null,last_name TEXT not null," +
-            "email TEXT, timeStamp INTEGER )";
+            "email TEXT unique, timeStamp INTEGER )";
 
     private static final String CREATE_TABLE_ASTEROIDS = "CREATE TABLE " +
             "asteroids (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -25,7 +23,7 @@ public class DataBaseHelper  extends SQLiteOpenHelper {
             "distance REAL, " +
             "FOREIGN KEY(user_id) REFERENCES users(_id))";
 
-    public DataBaseHelper(Context context) {
+    public SQLiteOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -40,5 +38,23 @@ public class DataBaseHelper  extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS users");
         db.execSQL("DROP TABLE IF EXISTS asteroids");
         onCreate(db);
+    }
+
+    // METODO PARA ABRIR LA BASE DE DB
+    public  void open(){
+        this.getWritableDatabase();
+    }
+    //METODO PARA CERRAR
+    public void cerra(){this.close();}
+
+    public void insertUser(String first_name,String last_name,String email , String username, String password ){
+        ContentValues value = new ContentValues();
+        value.put("first_name", first_name);
+        value.put("last_name", last_name);
+        value.put("username", username);
+        value.put("email", email);
+        value.put("password",password);
+        this.getWritableDatabase().insert("users",null,value);
+
     }
 }

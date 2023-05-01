@@ -28,6 +28,7 @@
         android:hint="@string/txtusername"
         android:inputType="text"
         android:minHeight="48dp"
+        android:textColor="@color/black"
         android:textColorHint="#546E7A" />
 
     <EditText
@@ -40,6 +41,7 @@
         android:inputType="text"
         android:minHeight="48dp"
         android:textColorHint="#546E7A"
+        android:textColor="@color/black"
         android:autofillHints="" />
 
     <EditText
@@ -52,6 +54,7 @@
         android:inputType="text"
         android:minHeight="48dp"
         android:textColorHint="#546E7A"
+        android:textColor="@color/black"
         android:autofillHints="" />
 
     <EditText
@@ -64,6 +67,7 @@
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textColorHint="#546E7A"
+        android:textColor="@color/black"
         android:autofillHints=""
         tools:ignore="VisualLintTextFieldSize" />
 
@@ -77,6 +81,7 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColorHint="#546E7A"
+        android:textColor="@color/black"
         android:autofillHints="" />
 
     <Button
