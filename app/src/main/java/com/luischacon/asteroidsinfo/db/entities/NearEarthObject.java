@@ -11,13 +11,13 @@ public class NearEarthObject {
     private String name;
 
     @SerializedName("absolute_magnitude_h")
-    private double absoluteMagnitudeH;
+    private Double absoluteMagnitudeH;
 
-    @SerializedName("estimated_diameter_m")
-    private double estimatedDiameterM;
+    @SerializedName("estimated_diameter")
+    private EstimatedDiameter estimatedDiameterM;
 
     @SerializedName("is_potentially_hazardous_asteroid")
-    private boolean isPotentiallyHazardousAsteroid;
+    private Boolean isPotentiallyHazardousAsteroid;
 
     @SerializedName("first_observation_date")
     private String firstObservationDate;
@@ -26,7 +26,7 @@ public class NearEarthObject {
     private String lastObservationDate;
 
     @SerializedName("user_id")
-    private long userId;
+    private Integer userId;
 
     public NearEarthObject() {
     }
@@ -55,11 +55,11 @@ public class NearEarthObject {
         this.absoluteMagnitudeH = absoluteMagnitudeH;
     }
 
-    public double getEstimatedDiameterM() {
+    public EstimatedDiameter getEstimated_diameter() {
         return estimatedDiameterM;
     }
 
-    public void setEstimatedDiameterM(double estimatedDiameterM) {
+    public void setEstimatedDiameterM(EstimatedDiameter estimatedDiameterM) {
         this.estimatedDiameterM = estimatedDiameterM;
     }
 
@@ -87,11 +87,11 @@ public class NearEarthObject {
         this.lastObservationDate = lastObservationDate;
     }
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -108,4 +108,6 @@ public class NearEarthObject {
                 ", userId=" + userId +
                 '}';
     }
+
+
 }

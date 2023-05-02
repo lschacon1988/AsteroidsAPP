@@ -5,12 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.luischacon.asteroidsinfo.adaptaer.ListaAsteroidsAdapter;
 import com.luischacon.asteroidsinfo.db.SQLiteOpenHelper;
 import com.luischacon.asteroidsinfo.db.entities.Asteroid;
+import com.luischacon.asteroidsinfo.db.entities.EstimatedDiameter;
 import com.luischacon.asteroidsinfo.db.entities.NasaApiResponse;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 import com.luischacon.asteroidsinfo.interfaces.NasaAPIservice;
@@ -51,8 +54,19 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
-        System.out.println("USERID SI LLEGA "+ userId);
 
+        getAsteroids(userId);
+
+
+
+
+
+
+
+    }
+
+
+    private void getAsteroids(int userId){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nasa.gov/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -63,21 +77,35 @@ public class ListAsteroidsActivity extends AppCompatActivity {
         call.enqueue(new Callback<NasaApiResponse>() {
             @Override
             public void onResponse(Call<NasaApiResponse> call, Response<NasaApiResponse>response) {
-                System.out.println("ESTOY EN LISTA "+response.isSuccessful());
+
+
                 if (response.isSuccessful()) {
                     NasaApiResponse nasaApiResponse = (NasaApiResponse) response.body();
+
                     Map<String, List<NearEarthObject>> nearEarthObjects = nasaApiResponse.getNearEarthObjects();
+
                     for (List<NearEarthObject> nearEarthObjectList : ( nearEarthObjects).values()) {
                         for (NearEarthObject nearEarthObject : nearEarthObjectList) {
+
                             NearEarthObject temp = new NearEarthObject();
                             temp.setName(nearEarthObject.getName());
-                            temp.setEstimatedDiameterM(nearEarthObject.getEstimatedDiameterM());
+                            temp.setEstimatedDiameterM(nearEarthObject.getEstimated_diameter());
                             temp.setAbsoluteMagnitudeH(nearEarthObject.getAbsoluteMagnitudeH());
                             temp.setPotentiallyHazardousAsteroid(nearEarthObject.isPotentiallyHazardousAsteroid());
+                            temp.setFirstObservationDate(nearEarthObject.getFirstObservationDate());
+                            temp.setLastObservationDate(nearEarthObject.getLastObservationDate());
 
+                            try {
+                                Cursor existeAsteroid = helper.consutarAsteroid(temp.getName());
+                                if(existeAsteroid.getCount() == 0){
+                                    helper.open();
+                                    helper.insertAsteroit(temp,userId);
+                                    Toast.makeText(ListAsteroidsActivity.this,"Registro exitoso", Toast.LENGTH_LONG).show();
+                                }
 
-
-                            // accede a otras propiedades de NearEarthObject según sea necesario
+                            }catch ( Exception err){
+                                Toast.makeText(ListAsteroidsActivity.this,"Error al almacenar datos", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 }  else {
@@ -90,9 +118,6 @@ public class ListAsteroidsActivity extends AppCompatActivity {
                 Toast.makeText(ListAsteroidsActivity.this, "Error de conexión", Toast.LENGTH_LONG).show();
             }
         });
-
-
-
 
     }
 }

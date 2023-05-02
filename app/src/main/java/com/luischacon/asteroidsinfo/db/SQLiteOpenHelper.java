@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "asteroids.db";
 
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " +
@@ -27,7 +27,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_ASTEROIDS = "CREATE TABLE asteroids (" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT, " +
+            "name TEXT UNIQUE, " +
             "absolute_magnitude_h REAL," +
             "estimated_diameter_m REAL, " +
             "is_potentially_hazardous_asteroid INTEGER, " +
@@ -89,7 +89,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
        ContentValues value = new ContentValues();
        value.put("name",nearEarthObject.getName());
        value.put("absolute_magnitude_h",nearEarthObject.getAbsoluteMagnitudeH());
-       value.put("estimated_diameter_m",nearEarthObject.getEstimatedDiameterM());
+       value.put("estimated_diameter_m", (Double) nearEarthObject.getEstimated_diameter().getMeters().get("estimated_diameter_max"));
        value.put("is_potentially_hazardous_asteroid",nearEarthObject.isPotentiallyHazardousAsteroid()?1:0);
        value.put("first_observation_date", nearEarthObject.getFirstObservationDate());
        value.put("last_observation_date",nearEarthObject.getLastObservationDate());
@@ -97,4 +97,14 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
        this.getWritableDatabase().insert("asteroids", null, value);
    }
+
+   public Cursor consutarAsteroid(String name){
+        Cursor cursorAsteroid = null;
+       String[] columns = new String[]{"_id","name"};
+        cursorAsteroid= this.getReadableDatabase().query("asteroids",columns,"name=?",new String[]{name},null,null,null);
+
+        return cursorAsteroid;
+   }
+
+
 }
