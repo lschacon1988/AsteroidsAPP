@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                                        txtPassword.getText().toString());
 
                 int userId = -1; // valor predeterminado si el usuario no se encuentra en la base de datos
-                System.out.println(consultUsers.moveToFirst());
+
                 if (consultUsers.moveToFirst()) {
                     userId = consultUsers.getInt(consultUsers.getColumnIndex("_id"));
 
