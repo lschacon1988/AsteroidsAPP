@@ -37,6 +37,23 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String email = txt_email.getText().toString();
                 String password = txt_register_pass.getText().toString();
+                String username = txt_username.getText().toString();
+                String first_name = txt_first_name.getText().toString();
+                String last_name = txt_last_name.getText().toString();
+
+                if(username.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "El Username es Requerido",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(first_name.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "El Nombre  es Requerido",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(last_name.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "El Apellido es Requerido",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 
                 // Valida el correo electrónico
                 if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
@@ -44,15 +61,25 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                if(helper.isEmailExists(email)){
+                    Toast.makeText(getApplicationContext(), "El correo electrónico ya esta registrago",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+
                 // Valida la contraseña
-                if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
-                    Toast.makeText(getApplicationContext(), "La contraseña debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial",Toast.LENGTH_LONG).show();
+                if (!password.matches("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$")) {
+                    Toast.makeText(getApplicationContext(), "La contraseña debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula y un número",Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 helper.open();
 
-                helper.insertUser(txt_username.getText().toString(),txt_register_pass.getText().toString(),txt_first_name.getText().toString(),txt_last_name.getText().toString(),txt_email.getText().toString());
+                helper.insertUser(username,
+                        password,
+                        first_name,
+                        last_name,
+                        email);
 
                 helper.cerra();
 

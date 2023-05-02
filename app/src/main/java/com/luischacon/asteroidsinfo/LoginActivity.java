@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println(consultUsers.moveToFirst());
                 if (consultUsers.moveToFirst()) {
                     userId = consultUsers.getInt(consultUsers.getColumnIndex("_id"));
-                    System.out.println("SERA QUE PASO POR AQUI "+ userId);
+
                 }
 
                 if( consultUsers.getCount() > 0){

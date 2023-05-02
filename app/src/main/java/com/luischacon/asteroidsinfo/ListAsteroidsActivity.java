@@ -1,9 +1,12 @@
 package com.luischacon.asteroidsinfo;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -33,12 +36,13 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
     ArrayList<NearEarthObject> listAsteroids;
 
-    ;
+
     String startDate = "2023/04/28";
     String apiKey = "zDZJz45TCLWHeTsLuFVjl5rWTmkqJ8x680UwmGB7";
     String endDate = "2023/04/28";
     int userId;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +50,13 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
+        System.out.println("LISTA DE ASTEROIDES d" + helper.listarAsteroids(userId));
+        getAsteroids(userId);
+        //METODOS PARA IMPLEMENTAR RecyclerView FALLA
 
 //        list_asteroids = findViewById(R.id.list_asteroids);
-        //list_asteroids.setLayoutManager(new LinearLayoutManager(this));
-        getAsteroids(userId);
-
-
-//        ListaAsteroidsAdapter listAdapter= new ListaAsteroidsAdapter(helper.listarAsteroids(userId));
+//        list_asteroids.setLayoutManager(new LinearLayoutManager(this));
+//       ListaAsteroidsAdapter listAdapter= new ListaAsteroidsAdapter(helper.listarAsteroids(userId));
 //        list_asteroids.setAdapter(listAdapter);
 
     }
@@ -89,7 +93,7 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
                             try {
                                 Cursor existeAsteroid = helper.consultarAsteroid(temp.getName(), userId);
-                                System.out.println("CONSULTA ASTEROIT "+ existeAsteroid.getCount());
+
                                 if (existeAsteroid.getCount() == 0) {
                                     helper.open();
                                     helper.insertAsteroit(temp, userId);
