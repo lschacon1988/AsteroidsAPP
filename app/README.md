@@ -1,0 +1,3 @@
+# Librerias
+- Retrofit
+- Gson

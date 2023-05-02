@@ -2,6 +2,7 @@ package com.luischacon.asteroidsinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -30,14 +31,26 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onClick(View v) {
 
                 Cursor consultUsers = helper.consultarUser(txtEmail.getText().toString(),
                                        txtPassword.getText().toString());
+
+                int userId = -1; // valor predeterminado si el usuario no se encuentra en la base de datos
+                System.out.println(consultUsers.moveToFirst());
+                if (consultUsers.moveToFirst()) {
+                    userId = consultUsers.getInt(consultUsers.getColumnIndex("_id"));
+                    System.out.println("SERA QUE PASO POR AQUI "+ userId);
+                }
+
                 if( consultUsers.getCount() > 0){
                     Toast.makeText(getApplicationContext(),"Usuario logeado", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+
+                    Intent intent = new Intent(getApplicationContext(), ListAsteroidsActivity.class);
+                    intent.putExtra("USER_ID", userId);
+                    System.out.println("SERA QUE PASO POR AQUI "+ userId);
                     startActivity(intent);
                 }else {
                     Toast.makeText(getApplicationContext(),"Error al loger usuario", Toast.LENGTH_LONG).show();
