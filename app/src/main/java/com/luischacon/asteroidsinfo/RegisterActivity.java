@@ -34,6 +34,22 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register_form.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String email = txt_email.getText().toString();
+                String password = txt_register_pass.getText().toString();
+
+                // Valida el correo electrónico
+                if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+                    Toast.makeText(getApplicationContext(), "El correo electrónico no es válido",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Valida la contraseña
+                if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+                    Toast.makeText(getApplicationContext(), "La contraseña debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 helper.open();
 
                 helper.insertUser(txt_username.getText().toString(),txt_register_pass.getText().toString(),txt_first_name.getText().toString(),txt_last_name.getText().toString(),txt_email.getText().toString());
