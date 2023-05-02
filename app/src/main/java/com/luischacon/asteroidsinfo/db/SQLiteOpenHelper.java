@@ -6,14 +6,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.luischacon.asteroidsinfo.db.entities.Asteroid;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "asteroids.db";
 
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " +
@@ -27,7 +26,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_ASTEROIDS = "CREATE TABLE asteroids (" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT UNIQUE, " +
+            "name TEXT, " +
             "absolute_magnitude_h REAL," +
             "estimated_diameter_m REAL, " +
             "is_potentially_hazardous_asteroid INTEGER, " +
@@ -98,12 +97,40 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
        this.getWritableDatabase().insert("asteroids", null, value);
    }
 
-   public Cursor consutarAsteroid(String name){
+   public Cursor consultarAsteroid(String name,int user_id){ // valida pra no registra asteroides duplocaods a usuarios
         Cursor cursorAsteroid = null;
-       String[] columns = new String[]{"_id","name"};
-        cursorAsteroid= this.getReadableDatabase().query("asteroids",columns,"name=?",new String[]{name},null,null,null);
+
+        cursorAsteroid= this.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id='"+user_id+"' AND name='"+name+"' ",null);
 
         return cursorAsteroid;
+   }
+
+   public ArrayList<NearEarthObject> listarAsteroids(int userId){
+        Cursor listAsteroidCursos = null;
+        NearEarthObject asteroid = null;
+        ArrayList<NearEarthObject> list = new ArrayList<>();
+
+        listAsteroidCursos = this.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id = '"+userId+"'",null);
+
+        if(listAsteroidCursos.moveToFirst()){
+            do{
+                asteroid = new NearEarthObject();
+                asteroid.setId(listAsteroidCursos.getInt(0));
+                asteroid.setName(listAsteroidCursos.getString(1));
+                asteroid.setAbsoluteMagnitudeH(listAsteroidCursos.getDouble(2));
+                asteroid.setEstimatedDiameterM( listAsteroidCursos.getDouble(3));
+                asteroid.setPotentiallyHazardousAsteroid(listAsteroidCursos.getInt(4));
+                asteroid.setFirstObservationDate(listAsteroidCursos.getString(5));
+                asteroid.setLastObservationDate(listAsteroidCursos.getString(6));
+                list.add(asteroid);
+
+
+            }while (listAsteroidCursos.moveToNext());
+        }
+
+        listAsteroidCursos.close();
+
+        return list;
    }
 
 
