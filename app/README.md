@@ -11,3 +11,7 @@
  
  # Base de dato 
  - Se usó un base de datos local SQLite 
+
+# Métodos
+- Los métodos helper son instancias de la base de datos y contienen las operaciones básicas 
+- Se crearon interfaces y clases para representar lo modeló de datos tratando que fueran lo más reutilizable posible
