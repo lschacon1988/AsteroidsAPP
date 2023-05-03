@@ -3,7 +3,6 @@ package com.luischacon.asteroidsinfo;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -12,8 +11,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.luischacon.asteroidsinfo.adaptaer.ListaAsteroidsAdapter;
-import com.luischacon.asteroidsinfo.db.SQLiteOpenHelper;
+import com.luischacon.asteroidsinfo.db.DbManager;
 import com.luischacon.asteroidsinfo.db.entities.NasaApiResponse;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 import com.luischacon.asteroidsinfo.interfaces.NasaAPIservice;
@@ -32,7 +30,8 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
     RecyclerView list_asteroids;
 
-    SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
+    //SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
+    DbManager db = new DbManager(this);
 
     ArrayList<NearEarthObject> listAsteroids;
 
@@ -50,7 +49,7 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
-        System.out.println("LISTA DE ASTEROIDES d" + helper.listarAsteroids(userId));
+        System.out.println("LISTA DE ASTEROIDES d" + db.listarAsteroids(userId));
         getAsteroids(userId);
         //METODOS PARA IMPLEMENTAR RecyclerView FALLA
 
@@ -92,11 +91,11 @@ public class ListAsteroidsActivity extends AppCompatActivity {
                             temp.setLastObservationDate(nearEarthObject.getLastObservationDate());
 
                             try {
-                                Cursor existeAsteroid = helper.consultarAsteroid(temp.getName(), userId);
+                                Cursor existeAsteroid = db.consultarAsteroid(temp.getName(), userId);
 
                                 if (existeAsteroid.getCount() == 0) {
-                                    helper.open();
-                                    helper.insertAsteroit(temp, userId);
+                                    db.open();
+                                    db.insertAsteroit(temp, userId);
                                     Toast.makeText(ListAsteroidsActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                                 }
 
