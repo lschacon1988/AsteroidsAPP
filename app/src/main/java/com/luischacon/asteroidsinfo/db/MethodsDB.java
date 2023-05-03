@@ -5,64 +5,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 
 import java.util.ArrayList;
 
-public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
+public class MethodsDB  {
 
-    private static final int DATABASE_VERSION = 5;
-    private static final String DATABASE_NAME = "asteroids.db";
+    private final SQLiteOpenHelper dbHelper;
 
-    private static final String CREATE_TABLE_USERS = "CREATE TABLE " +
-            "users (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "username TEXT not null unique," +
-            " password TEXT not null," +
-            "first_name TEXT not null," +
-            "last_name TEXT not null," +
-            "email TEXT unique, " +
-            "timeStamp INTEGER )";
-
-    private static final String CREATE_TABLE_ASTEROIDS = "CREATE TABLE asteroids (" +
-            "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT, " +
-            "absolute_magnitude_h REAL," +
-            "estimated_diameter_m REAL, " +
-            "is_potentially_hazardous_asteroid INTEGER, " +
-            "first_observation_date TEXT," +
-            " last_observation_date TEXT," +
-            "user_id INTEGER, " +
-            "FOREIGN KEY(user_id) REFERENCES users(_id))";
-
-    public SQLiteOpenHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USERS);
-        db.execSQL(CREATE_TABLE_ASTEROIDS);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS users");
-        db.execSQL("DROP TABLE IF EXISTS asteroids");
-        onCreate(db);
+    public MethodsDB(Context context) {
+        dbHelper = new SQLiteOpenHelper(context);
     }
 
     // METODO PARA ABRIR LA BASE DE DB
     public void open() {
-        this.getWritableDatabase();
+        dbHelper.getWritableDatabase();
     }
 
     //METODO PARA CERRAR
     public void cerra() {
-        this.close();
+        dbHelper.close();
     }
 
     public void insertUser(String username, String password, String first_name, String last_name, String email) {
@@ -73,7 +36,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         value.put("last_name", last_name);
         value.put("email", email);
 
-        this.getWritableDatabase().insert("users", null, value);
+        dbHelper.getWritableDatabase().insert("users", null, value);
 
     }
 
@@ -81,7 +44,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         Cursor mCursor = null;
         String[] columns = new String[]{"_id", "first_name", "last_name", "username", "email", "password"};
 
-        mCursor = this.getReadableDatabase().query("users", columns, "email=? AND password=?", new String[]{email, password}, null, null, null);
+        mCursor = dbHelper.getReadableDatabase().query("users", columns, "email=? AND password=?", new String[]{email, password}, null, null, null);
 
         return mCursor;
     }
@@ -97,13 +60,13 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         value.put("last_observation_date", nearEarthObject.getLastObservationDate());
         value.put("user_id", user_id);
 
-        this.getWritableDatabase().insert("asteroids", null, value);
+        dbHelper.getWritableDatabase().insert("asteroids", null, value);
     }
 
     public Cursor consultarAsteroid(String name, int user_id) { // valida pra no registra asteroides duplocaods a usuarios
         Cursor cursorAsteroid = null;
 
-        cursorAsteroid = this.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id='" + user_id + "' AND name='" + name + "' ", null);
+        cursorAsteroid = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id='" + user_id + "' AND name='" + name + "' ", null);
 
         return cursorAsteroid;
     }
@@ -113,7 +76,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         NearEarthObject asteroid = null;
         ArrayList<NearEarthObject> list = new ArrayList<>();
 
-        listAsteroidCursos = this.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id = '" + userId + "'", null);
+        listAsteroidCursos = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id = '" + userId + "'", null);
 
         if (listAsteroidCursos.moveToFirst()) {
             do {
@@ -138,7 +101,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
 
     public boolean isEmailExists(String email) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email=?", new String[]{email});
         boolean result = cursor.getCount() > 0;
         cursor.close();
