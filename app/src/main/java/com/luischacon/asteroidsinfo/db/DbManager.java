@@ -10,11 +10,11 @@ import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 
 import java.util.ArrayList;
 
-public class MethodsDB  {
+public class DbManager {
 
     private final SQLiteOpenHelper dbHelper;
 
-    public MethodsDB(Context context) {
+    public DbManager(Context context) {
         dbHelper = new SQLiteOpenHelper(context);
     }
 

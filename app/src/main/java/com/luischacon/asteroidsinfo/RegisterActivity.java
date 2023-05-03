@@ -9,14 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.luischacon.asteroidsinfo.db.SQLiteOpenHelper;
+import com.luischacon.asteroidsinfo.db.DbManager;
 
 public class RegisterActivity extends AppCompatActivity {
 
     EditText txt_username, txt_first_name, txt_last_name, txt_email, txt_register_pass;
     Button btn_register_form;
 
-    SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
+    //SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
+    DbManager db = new DbManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(helper.isEmailExists(email)){
+                if(db.isEmailExists(email)){
                     Toast.makeText(getApplicationContext(), "El correo electrónico ya esta registrago",Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -73,15 +74,15 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                helper.open();
+                db.open();
 
-                helper.insertUser(username,
+                db.insertUser(username,
                         password,
                         first_name,
                         last_name,
                         email);
 
-                helper.cerra();
+                db.cerra();
 
                 Toast.makeText(getApplicationContext(), "Rgistro exitoso",Toast.LENGTH_LONG).show();
 
