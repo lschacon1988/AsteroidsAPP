@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), ListAsteroidsActivity.class);
                     intent.putExtra("USER_ID", userId);
-                    System.out.println("SERA QUE PASO POR AQUI "+ userId);
+
                     startActivity(intent);
                 }else {
                     Toast.makeText(getApplicationContext(),"Error al loger usuario", Toast.LENGTH_LONG).show();
