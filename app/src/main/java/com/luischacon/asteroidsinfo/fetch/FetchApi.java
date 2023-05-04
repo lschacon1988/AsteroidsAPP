@@ -1,14 +1,7 @@
-package com.luischacon.asteroidsinfo;
+package com.luischacon.asteroidsinfo.fetch;
 
-
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.luischacon.asteroidsinfo.db.DbManager;
@@ -16,7 +9,6 @@ import com.luischacon.asteroidsinfo.db.entities.NasaApiResponse;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 import com.luischacon.asteroidsinfo.interfaces.NasaAPIservice;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,44 +18,29 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ListAsteroidsActivity extends AppCompatActivity {
+public class FetchApi {
 
-    RecyclerView list_asteroids;
+    private String baseUrl;
+    private String startDate;
 
-    //SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
-    DbManager db = new DbManager(this);
+    private String endDate;
+    private String apiKey;
+    private DbManager db;
+    private Context context;
 
-    ArrayList<NearEarthObject> listAsteroids;
-
-
-    String startDate = "2023/04/28";
-    String apiKey = "zDZJz45TCLWHeTsLuFVjl5rWTmkqJ8x680UwmGB7";
-    String endDate = "2023/04/28";
-    int userId;
-
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_asteroids);
-
-        Intent intent = getIntent();
-        userId = intent.getIntExtra("USER_ID", -1);
-        System.out.println("LISTA DE ASTEROIDES d" + db.listarAsteroids(userId));
-        getAsteroids(userId);
-        //METODOS PARA IMPLEMENTAR RecyclerView FALLA
-
-//        list_asteroids = findViewById(R.id.list_asteroids);
-//        list_asteroids.setLayoutManager(new LinearLayoutManager(this));
-//       ListaAsteroidsAdapter listAdapter= new ListaAsteroidsAdapter(helper.listarAsteroids(userId));
-//        list_asteroids.setAdapter(listAdapter);
-
+    public FetchApi(Context context, String baseUrl, String startDate, String endDate, String apiKey) {
+        this.baseUrl = baseUrl;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.apiKey = apiKey;
+        this.db = db;
+        this.context = context;
     }
 
-    // METODO PARA REALIZAR PETICION ALA API
-    private void getAsteroids(int userId) {
+
+    public void getAsteroids(int userId) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.nasa.gov/")
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         NasaAPIservice nasaAPIservice = retrofit.create(NasaAPIservice.class);
@@ -73,7 +50,7 @@ public class ListAsteroidsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<NasaApiResponse> call, Response<NasaApiResponse> response) {
 
-
+                System.out.println(response.code());
                 if (response.isSuccessful()) {
                     NasaApiResponse nasaApiResponse = (NasaApiResponse) response.body();
 
@@ -96,24 +73,23 @@ public class ListAsteroidsActivity extends AppCompatActivity {
                                 if (existeAsteroid.getCount() == 0) {
                                     db.open();
                                     db.insertAsteroit(temp, userId);
-                                    Toast.makeText(ListAsteroidsActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (Exception err) {
-                                Toast.makeText(ListAsteroidsActivity.this, "Error al almacenar datos", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Error al almacenar datos", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
                 } else {
-                    Toast.makeText(ListAsteroidsActivity.this, "Error al obtener los datos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Error al obtener los datos", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(ListAsteroidsActivity.this, "Error de conexión", Toast.LENGTH_LONG).show();
+
+                Toast.makeText(context, "Error de conexión", Toast.LENGTH_LONG).show();
             }
         });
-
-    }
-}
+}}

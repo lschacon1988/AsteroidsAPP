@@ -19,7 +19,7 @@
             android:name=".DetailAsteroidsActivity"
             android:exported="false" />
         <activity
-            android:name=".ListAsteroidsActivity"
+            android:name=".ListAsteroids"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
