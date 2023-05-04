@@ -50,7 +50,7 @@ public class FetchApi {
             @Override
             public void onResponse(Call<NasaApiResponse> call, Response<NasaApiResponse> response) {
 
-                System.out.println(response.code());
+
                 if (response.isSuccessful()) {
                     NasaApiResponse nasaApiResponse = (NasaApiResponse) response.body();
 
@@ -74,6 +74,7 @@ public class FetchApi {
                                     db.open();
                                     db.insertAsteroit(temp, userId);
                                     Toast.makeText(context, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                                    db.cerra();
                                 }
 
                             } catch (Exception err) {

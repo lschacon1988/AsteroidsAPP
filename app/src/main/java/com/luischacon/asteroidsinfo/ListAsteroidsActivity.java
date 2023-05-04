@@ -19,9 +19,6 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
     RecyclerView list_asteroids;
 
-    //SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
-    DbManager db = new DbManager(this);
-
     ArrayList<NearEarthObject> listAsteroids;
 
     FetchApi fetchApi = new FetchApi(ListAsteroidsActivity.this,"https://api.nasa.gov/","2023/04/28","2023/04/28","zDZJz45TCLWHeTsLuFVjl5rWTmkqJ8x680UwmGB7");
@@ -35,7 +32,7 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userId = intent.getIntExtra("USER_ID", -1);
-        System.out.println("LISTA DE ASTEROIDES d" + db.listarAsteroids(userId));
+
         fetchApi.getAsteroids(userId);
 
         //METODOS PARA IMPLEMENTAR RecyclerView FALLA
