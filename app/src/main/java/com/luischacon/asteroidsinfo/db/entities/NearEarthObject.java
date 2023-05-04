@@ -4,8 +4,8 @@ package com.luischacon.asteroidsinfo.db.entities;
 import com.google.gson.annotations.SerializedName;
 
 public class NearEarthObject {
-//    @SerializedName("id")
-//    private long id;
+    @SerializedName("id")
+    private Integer id;
 
     @SerializedName("name")
     private String name;
@@ -15,9 +15,10 @@ public class NearEarthObject {
 
     @SerializedName("estimated_diameter")
     private EstimatedDiameter estimatedDiameterM;
+    private Double DiameterM;
 
     @SerializedName("is_potentially_hazardous_asteroid")
-    private Boolean isPotentiallyHazardousAsteroid;
+    private Boolean isPotentiallyHazardousAsteroid=false;
 
     @SerializedName("first_observation_date")
     private String firstObservationDate;
@@ -31,13 +32,17 @@ public class NearEarthObject {
     public NearEarthObject() {
     }
 
-//    public long getId() {
-//        return id;
-//    }
+    public Integer getId() {
+        return id;
+    }
 
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getDiameterM() {
+        return DiameterM;
+    }
 
     public String getName() {
         return name;
@@ -110,4 +115,13 @@ public class NearEarthObject {
     }
 
 
+    public void setPotentiallyHazardousAsteroid(int anInt) {
+        if(anInt == 1){
+            isPotentiallyHazardousAsteroid= Boolean.TRUE;
+        }
+    }
+
+    public void setEstimatedDiameterM(double aDouble) {
+        this.DiameterM= aDouble;
+    }
 }

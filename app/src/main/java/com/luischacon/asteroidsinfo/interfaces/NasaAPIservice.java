@@ -1,10 +1,6 @@
 package com.luischacon.asteroidsinfo.interfaces;
 
-import com.luischacon.asteroidsinfo.db.entities.Asteroid;
 import com.luischacon.asteroidsinfo.db.entities.NasaApiResponse;
-import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

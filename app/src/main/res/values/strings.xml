@@ -10,7 +10,7 @@
     <string name="txtusername">Username</string>
     <string name="txtlastName">Apellido</string>
     <string name="txtemail">Email</string>
-    <string name="password">Password</string>
+    <string name="password">Password: Ejem1234</string>
 
 
     <string name="txtdistance">Distancia de la tierra</string>

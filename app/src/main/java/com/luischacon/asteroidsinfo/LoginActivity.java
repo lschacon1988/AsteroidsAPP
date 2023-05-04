@@ -11,15 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.luischacon.asteroidsinfo.db.SQLiteOpenHelper;
+import com.luischacon.asteroidsinfo.db.DbManager;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText txtEmail, txtPassword;
     Button btnLogin;
 
-    SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
-
+    //SQLiteOpenHelper helper = new SQLiteOpenHelper(this);
+    DbManager db = new DbManager(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +35,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Cursor consultUsers = helper.consultarUser(txtEmail.getText().toString(),
+                Cursor consultUsers = db.consultarUser(txtEmail.getText().toString(),
                                        txtPassword.getText().toString());
 
                 int userId = -1; // valor predeterminado si el usuario no se encuentra en la base de datos
-                System.out.println(consultUsers.moveToFirst());
+
                 if (consultUsers.moveToFirst()) {
                     userId = consultUsers.getInt(consultUsers.getColumnIndex("_id"));
-                    System.out.println("SERA QUE PASO POR AQUI "+ userId);
+
                 }
 
                 if( consultUsers.getCount() > 0){

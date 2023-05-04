@@ -5,15 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
-import com.luischacon.asteroidsinfo.db.entities.Asteroid;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "asteroids.db";
 
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " +
@@ -27,7 +27,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_ASTEROIDS = "CREATE TABLE asteroids (" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "name TEXT UNIQUE, " +
+            "name TEXT, " +
             "absolute_magnitude_h REAL," +
             "estimated_diameter_m REAL, " +
             "is_potentially_hazardous_asteroid INTEGER, " +
@@ -39,6 +39,8 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     public SQLiteOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -53,58 +55,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // METODO PARA ABRIR LA BASE DE DB
-    public void open() {
-        this.getWritableDatabase();
-    }
 
-    //METODO PARA CERRAR
-    public void cerra() {
-        this.close();
-    }
-
-    public void insertUser(String username, String password, String first_name, String last_name, String email) {
-        ContentValues value = new ContentValues();
-        value.put("username", username);
-        value.put("password", password);
-        value.put("first_name", first_name);
-        value.put("last_name", last_name);
-        value.put("email", email);
-
-        this.getWritableDatabase().insert("users", null, value);
-
-    }
-
-    public Cursor consultarUser(String email, String password) throws SQLException {
-        Cursor mCursor = null;
-        String[] columns = new String[]{"_id", "first_name", "last_name", "username", "email", "password"};
-
-        mCursor = this.getReadableDatabase().query("users", columns, "email=? AND password=?", new String[]{email, password}, null, null, null);
-
-        return mCursor;
-    }
-
-    //METODO PARA INSERTAR ASTEROIDE
-   public void insertAsteroit(NearEarthObject nearEarthObject,int user_id){
-       ContentValues value = new ContentValues();
-       value.put("name",nearEarthObject.getName());
-       value.put("absolute_magnitude_h",nearEarthObject.getAbsoluteMagnitudeH());
-       value.put("estimated_diameter_m", (Double) nearEarthObject.getEstimated_diameter().getMeters().get("estimated_diameter_max"));
-       value.put("is_potentially_hazardous_asteroid",nearEarthObject.isPotentiallyHazardousAsteroid()?1:0);
-       value.put("first_observation_date", nearEarthObject.getFirstObservationDate());
-       value.put("last_observation_date",nearEarthObject.getLastObservationDate());
-       value.put("user_id",user_id);
-
-       this.getWritableDatabase().insert("asteroids", null, value);
-   }
-
-   public Cursor consutarAsteroid(String name){
-        Cursor cursorAsteroid = null;
-       String[] columns = new String[]{"_id","name"};
-        cursorAsteroid= this.getReadableDatabase().query("asteroids",columns,"name=?",new String[]{name},null,null,null);
-
-        return cursorAsteroid;
-   }
 
 
 }
