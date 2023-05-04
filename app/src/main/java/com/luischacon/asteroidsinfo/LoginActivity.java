@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 if( consultUsers.getCount() > 0){
                     Toast.makeText(getApplicationContext(),"Usuario logeado", Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(getApplicationContext(), ListAsteroids.class);
+                    Intent intent = new Intent(getApplicationContext(), ListAsteroidsActivity.class);
                     intent.putExtra("USER_ID", userId);
                     System.out.println("SERA QUE PASO POR AQUI "+ userId);
                     startActivity(intent);
