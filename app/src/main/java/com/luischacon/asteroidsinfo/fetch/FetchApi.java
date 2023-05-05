@@ -22,7 +22,6 @@ public class FetchApi {
 
     private String baseUrl;
     private String startDate;
-
     private String endDate;
     private String apiKey;
     private DbManager db;
