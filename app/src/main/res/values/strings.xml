@@ -25,8 +25,7 @@
     <string name="titleLogin">Login</string>
     <string name="txttitle">Bienvenido</string>
     <string name="txttitleregister">Registra Tus Datos</string>
-
-
+    <string name="todo">TODO</string>
 
 
 </resources>

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.luischacon.asteroidsinfo.db.entities.Asteroit;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 
 import java.util.ArrayList;
@@ -71,23 +72,23 @@ public class DbManager {
         return cursorAsteroid;
     }
 
-    public ArrayList<NearEarthObject> listarAsteroids(int userId) {
+    public ArrayList<Asteroit> listarAsteroids(int userId) {
         Cursor listAsteroidCursos = null;
-        NearEarthObject asteroid = null;
-        ArrayList<NearEarthObject> list = new ArrayList<>();
+        Asteroit asteroid = null;
+        ArrayList<Asteroit> list = new ArrayList<>();
 
         listAsteroidCursos = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM asteroids WHERE user_id = '" + userId + "'", null);
 
         if (listAsteroidCursos.moveToFirst()) {
             do {
-                asteroid = new NearEarthObject();
-                asteroid.setId(listAsteroidCursos.getInt(0));
+                asteroid = new Asteroit();
+                asteroid.set_id(listAsteroidCursos.getInt(0));
                 asteroid.setName(listAsteroidCursos.getString(1));
-                asteroid.setAbsoluteMagnitudeH(listAsteroidCursos.getDouble(2));
-                asteroid.setEstimatedDiameterM(listAsteroidCursos.getDouble(3));
-                asteroid.setPotentiallyHazardousAsteroid(listAsteroidCursos.getInt(4));
-                asteroid.setFirstObservationDate(listAsteroidCursos.getString(5));
-                asteroid.setLastObservationDate(listAsteroidCursos.getString(6));
+                asteroid.setAbsolute_magnitude_h((float) listAsteroidCursos.getDouble(2));
+                asteroid.setEstimated_diameter_m((float) listAsteroidCursos.getDouble(3));
+                asteroid.setIs_potentially_hazardous_asteroid(listAsteroidCursos.getInt(4));
+                asteroid.setFirst_observation_date(listAsteroidCursos.getString(5));
+                asteroid.setLast_observation_date(listAsteroidCursos.getString(6));
                 list.add(asteroid);
 
 
