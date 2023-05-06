@@ -33,9 +33,9 @@ public class ListaAsteroidsAdapter extends RecyclerView.Adapter<ListaAsteroidsAd
     @Override
     public void onBindViewHolder(@NonNull ListaAsteroidsAdapter.AsteroidsViewHolders holder, int position) {
 
-        holder.getTxt_item_name().setText("Nombre "+listAsteroids.get(position).getName());
-        holder.getTxt_item_magnitude().setText("Magnitud "+listAsteroids.get(position).getAbsolute_magnitude_h().toString());
-        holder.getTxt_item_diameter().setText("Diametro "+listAsteroids.get(position).getEstimated_diameter_m().toString());
+        holder.getTxt_item_name().setText("Nombre:\n"+listAsteroids.get(position).getName());
+        holder.getTxt_item_magnitude().setText("Magnitud:\n"+listAsteroids.get(position).getAbsolute_magnitude_h().toString());
+        holder.getTxt_item_diameter().setText("Diametro:\n"+listAsteroids.get(position).getEstimated_diameter_m().toString());
 
     }
 

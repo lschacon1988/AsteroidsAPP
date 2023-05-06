@@ -2,6 +2,7 @@ package com.luischacon.asteroidsinfo;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +43,7 @@ public class ListAsteroidsActivity extends AppCompatActivity {
         //METODOS PARA IMPLEMENTAR RecyclerView FALLA
 
         list_asteroid = findViewById(R.id.list_asteroids);
-        list_asteroid.setLayoutManager(new LinearLayoutManager(this));
+        list_asteroid.setLayoutManager(new GridLayoutManager(this,2));
 //        ListaAsteroidsAdapter listAdapter = new ListaAsteroidsAdapter(db.listarAsteroids(userId));
 //        list_asteroid.setAdapter(listAdapter);
 

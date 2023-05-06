@@ -23,6 +23,7 @@
         android:layout_gravity="center"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_weight="1"
-        tools:foregroundGravity="center" />
+        tools:foregroundGravity="center"
+        />
 
 </LinearLayout>
