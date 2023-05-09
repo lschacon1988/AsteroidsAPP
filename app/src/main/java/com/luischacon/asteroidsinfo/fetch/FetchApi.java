@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.widget.Toast;
 
 import com.luischacon.asteroidsinfo.db.DbManager;
+import com.luischacon.asteroidsinfo.db.SQLiteOpenHelper;
 import com.luischacon.asteroidsinfo.db.entities.NasaApiResponse;
 import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 import com.luischacon.asteroidsinfo.interfaces.NasaAPIservice;
@@ -24,7 +25,7 @@ public class FetchApi {
     private String startDate;
     private String endDate;
     private String apiKey;
-    private DbManager db;
+    private DbManager db ;
     private Context context;
 
     public FetchApi(Context context, String baseUrl, String startDate, String endDate, String apiKey) {
@@ -32,7 +33,7 @@ public class FetchApi {
         this.startDate = startDate;
         this.endDate = endDate;
         this.apiKey = apiKey;
-        this.db = db;
+        this.db = new DbManager(context);
         this.context = context;
     }
 
@@ -77,6 +78,7 @@ public class FetchApi {
                                 }
 
                             } catch (Exception err) {
+                                System.out.println("Error al almacenar datos "+ err);
                                 Toast.makeText(context, "Error al almacenar datos", Toast.LENGTH_LONG).show();
                             }
                         }

@@ -14,7 +14,9 @@ import com.luischacon.asteroidsinfo.db.entities.NearEarthObject;
 
 import java.util.ArrayList;
 
-public class ListaAsteroidsAdapter extends RecyclerView.Adapter<ListaAsteroidsAdapter.AsteroidsViewHolders> {
+public class ListaAsteroidsAdapter
+        extends RecyclerView.Adapter<ListaAsteroidsAdapter.AsteroidsViewHolders>
+        implements View.OnClickListener {
 
     ArrayList<Asteroit> listAsteroids;
 
@@ -37,6 +39,8 @@ public class ListaAsteroidsAdapter extends RecyclerView.Adapter<ListaAsteroidsAd
         holder.getTxt_item_magnitude().setText("Magnitud:\n"+listAsteroids.get(position).getAbsolute_magnitude_h().toString());
         holder.getTxt_item_diameter().setText("Diametro:\n"+listAsteroids.get(position).getEstimated_diameter_m().toString());
 
+
+
     }
 
     @Override
@@ -46,6 +50,11 @@ public class ListaAsteroidsAdapter extends RecyclerView.Adapter<ListaAsteroidsAd
 
     public void setData(ArrayList<Asteroit> listAsteroids) {
         this.listAsteroids = listAsteroids;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     public class AsteroidsViewHolders extends RecyclerView.ViewHolder {

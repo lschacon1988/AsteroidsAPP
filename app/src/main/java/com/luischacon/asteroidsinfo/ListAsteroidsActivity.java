@@ -40,7 +40,6 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
         //fetchApi.getAsteroids(userId);
 
-        //METODOS PARA IMPLEMENTAR RecyclerView FALLA
 
         list_asteroid = findViewById(R.id.list_asteroids);
         list_asteroid.setLayoutManager(new GridLayoutManager(this,2));
@@ -49,7 +48,7 @@ public class ListAsteroidsActivity extends AppCompatActivity {
 
 
         listAsteroids = db.listarAsteroids(userId);
-        System.out.println("ESTOY VERIFICANDO CONTENIDO "+ listAsteroids);
+
         // Si no hay datos en la base de datos, obtén los datos de la API
         if (listAsteroids.isEmpty()) {
             fetchApi.getAsteroids(userId);
